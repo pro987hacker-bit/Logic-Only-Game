@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Logic Only</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--panel:#fff;--tint:#eef3ff;--ink:#0b1a4a;--mute:#4f64a8;--line:#c9d6f7;--blue:#1746c9;--bd:#0f2f8f;--red:#e0262f;--rd:#a6141c;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070f26;--panel:#0e1b45;--tint:#14245a;--ink:#fff;--mute:#a4b5ee;--line:#243a7a;--blue:#3560e6;--bd:#2441a8;--red:#ff4b55;--rd:#b3202a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#070f26;--panel:#0e1b45;--tint:#14245a;--ink:#fff;--mute:#a4b5ee;--line:#243a7a;--blue:#3560e6;--bd:#2441a8;--red:#ff4b55;--rd:#b3202a;color-scheme:dark}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--blue);z-index:10}
+[hidden]{display:none!important}
+button,textarea{font:inherit}
+button{cursor:pointer;color:inherit}
+:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 48px}
+.hero{background:var(--blue);color:#fff;border-radius:0 0 32px 32px;padding:40px 20px 34px;text-align:center;position:relative}
+.hero::after{content:"";position:absolute;left:50%;bottom:-6px;width:96px;height:12px;margin-left:-48px;background:var(--red);border-radius:6px}
+.hero h1{margin:0;font-size:clamp(3.6rem,17vw,7rem);font-weight:800;letter-spacing:-.04em;line-height:.9;text-shadow:0 6px 0 var(--rd)}
+.hero p{margin:20px auto 26px;max-width:38ch;font-size:1.2rem;font-weight:600;opacity:.95}
+.btn{border:0;border-radius:14px;padding:13px 26px;font-weight:800;background:var(--red);color:#fff;box-shadow:0 5px 0 var(--rd);transition:transform .08s,box-shadow .08s}
+.btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 1px 0 var(--rd)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.big{font-size:1.4rem;padding:14px 54px}
+.btn.alt{background:var(--blue);box-shadow:0 5px 0 var(--bd)}
+.btn.alt:active:not(:disabled){box-shadow:0 1px 0 var(--bd)}
+.btn.out{background:var(--panel);color:var(--blue);border:2px solid var(--blue);box-shadow:0 4px 0 var(--line)}
+.stat{margin-top:18px;font-weight:600}
+.bar{height:8px;background:rgba(255,255,255,.28);border-radius:4px;max-width:260px;margin:8px auto 0;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--red);border-radius:4px}
+.tier{margin:30px 4px 12px;display:flex;align-items:baseline;gap:10px}
+.tier h2{margin:0;font-size:1.35rem;font-weight:800;color:var(--blue)}
+.tier span{color:var(--mute);font-size:.95rem}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.t{border-radius:16px;border:2px solid var(--blue);background:var(--panel);color:var(--blue);padding:10px 2px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 4px 0 var(--line)}
+.t b{font-size:1.5rem;font-weight:800;line-height:1}
+.t small{font-size:.72rem;font-weight:600;opacity:.85}
+.t.s2{background:var(--blue);color:#fff;box-shadow:0 4px 0 var(--bd)}
+.t.s1{border-color:var(--red);color:var(--red)}
+.t.now{border-color:var(--red);box-shadow:0 4px 0 var(--rd)}
+.t:disabled{border:2px dashed var(--line);color:var(--line);box-shadow:none;cursor:not-allowed}
+.top{background:var(--blue);color:#fff;border-radius:0 0 24px 24px;padding:14px 16px 16px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.top .row{display:flex;align-items:center;gap:12px;max-width:860px;margin:0 auto}
+.back{height:42px;padding:0 16px;border:0;border-radius:12px;background:#fff;color:var(--blue);font-size:1rem;font-weight:800;box-shadow:0 3px 0 var(--bd)}
+.top b{font-size:1.25rem;font-weight:800;line-height:1.1}
+.top small{display:block;opacity:.85}
+.top .bar{max-width:860px;margin:12px auto 0}
+.tm{background:#fff;color:var(--blue);border-radius:999px;padding:7px 14px;font-weight:800;font-variant-numeric:tabular-nums;min-width:68px;text-align:center}
+.tm.low{background:var(--red);color:#fff}
+.res.bad{border-left-color:var(--red)}
+.res.bad h3{color:var(--red)}
+.rule{color:var(--mute);font-size:.9rem;margin:10px 0 0}
+.card{background:var(--panel);border:2px solid var(--blue);border-radius:22px;padding:20px;margin-top:20px;box-shadow:0 6px 0 var(--line)}
+.chip{display:inline-block;background:var(--red);color:#fff;border-radius:999px;padding:3px 12px;font-weight:700;font-size:.88rem;margin-bottom:12px}
+.q{font-size:1.25rem;line-height:1.55;margin:0 0 18px;max-width:62ch;user-select:none;-webkit-user-select:none}
+textarea{width:100%;min-height:96px;border:2px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--tint);color:var(--ink);resize:vertical}
+textarea:focus{border-color:var(--blue);outline:none}
+.acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:14px}
+#fb{margin:14px 0 0;font-weight:700;color:var(--red);min-height:1.4em}
+.res{margin-top:16px;border-radius:16px;background:var(--tint);border-left:6px solid var(--blue);padding:14px 16px}
+.res h3{margin:0 0 6px;color:var(--blue)}
+.res p{margin:0 0 14px}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<section id="home">
+  <div class="hero">
+    <h1>Logic Only</h1>
+    <p>No luck. No guessing. Only logic.</p>
+    <button class="btn big" id="go">Play</button>
+    <div class="stat" id="stat"></div>
+    <div class="bar"><i id="pb"></i></div>
+  </div>
+  <div class="wrap" id="tiers"></div>
+</section>
+<section id="play" hidden>
+  <header class="top">
+    <div class="row"><button class="back" id="back">← Levels</button><div style="flex:1"><b id="lt"></b><small id="ls"></small></div><span class="tm" id="tm" role="timer" aria-label="Time left">0:00</span></div>
+    <div class="bar"><i id="pp"></i></div>
+  </header>
+  <div class="wrap">
+    <div class="res bad" id="warn" hidden><h3>Warning</h3><p style="margin:0">You left the game. If you leave again, this level will fail.</p></div>
+    <div class="card">
+      <span class="chip" id="chip"></span>
+      <p class="q" id="q"></p>
+      <textarea id="ans" aria-label="Your answer" placeholder="Type your answer here (pasting is off)"></textarea>
+      <div class="acts"><button class="btn" id="chk">Check answer</button></div>
+      <p id="fb" role="status" aria-live="polite"></p>
+      <p class="rule">Stay on this page while you play. Leaving it twice fails the level.</p>
+      <div class="res" id="res" hidden><h3 id="rh"></h3><p id="ra"></p><div class="acts" style="margin:0"><button class="btn alt" id="nx">Next level</button><button class="btn out" id="bk">All levels</button></div></div>
+      <div class="res bad" id="fail" hidden><h3>Time’s up</h3><p>You ran out of time, so this level is failed. Try it again to move on to the next one.</p><div class="acts" style="margin:0"><button class="btn" id="again2">Try again</button><button class="btn out" id="bk2">All levels</button></div></div>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+const TN=["Easy","Medium","Extremely hard"],TS=["Easy","Medium","Extreme"];
+const Q=[
+["Three switches are in one room and three bulbs are in another. You can flip the switches as often as you like, but you may enter the bulb room only once. How do you match each switch to its bulb?","Turn switch 1 on for about 10 minutes, then off. Turn switch 2 on and go in. The lit bulb is switch 2, the unlit warm bulb is switch 1, and the cold one is switch 3.",[/warm|hot|heat|garam|temperature/]],
+["A man got married in 1990, was born in 1985, and turned 20 in 1995. How is this possible?","The years are B.C., where the numbers count down toward zero.",[/\bb ?c\b|bce|before christ|backward|count(ing)? down|decreas/]],
+["If 5 cats catch 5 mice in 5 minutes, how many minutes do 100 cats need to catch 100 mice?","5 minutes. Each cat still needs 5 minutes to catch its own mouse.",[/\b(5|five)\b/]],
+["A father and son are in a car crash. The father dies and the son is rushed to hospital. The surgeon says, “I cannot operate on him, he is my son.” Who is the surgeon?","The boy’s mother.",[/mother|\bmom\b|mum|mama|ammi/]],
+["You have 8 identical-looking marbles, all the same weight except one that is slightly heavier, and a balance scale. What is the minimum number of weighings needed to find the heavy marble?","2 weighings. Split into groups of 3, 3 and 2, then narrow down the group that tips.",[/\b(2|two)\b/]],
+["A man walks in heavy rain with no umbrella or hat, yet not one hair on his head gets wet. Why?","He is completely bald.",[/bald|hairless|no hair|ganj|gunj/]],
+["You are running a race and overtake the person in 2nd place. What position are you in now?","2nd position. You took the place of the runner you passed.",[/\b(2nd|second|2)\b/]],
+["What becomes darker and less clear the cleaner it gets?","A blackboard.",[/black ?board|chalk ?board/]],
+["A well is 20 feet deep. A frog climbs 3 feet each day and slips back 2 feet each night. How many days does it take to get out?","18 days. After day 17 it is at 17 feet, and on day 18 it climbs out before slipping.",[/\b(18|eighteen)\b/]],
+["What has four legs but cannot walk?","A table or a chair.",[/table|chair|stool|bench|bed|sofa|couch|desk|cot|furniture/]],
+["Three friends rent a room for Rs. 300, paying Rs. 100 each. The manager realises the rent is Rs. 250 and sends Rs. 50 back with a bellboy. The bellboy keeps Rs. 20 and gives Rs. 10 back to each friend. Now each friend has paid Rs. 90, so 3 × 90 = 270, and the bellboy has Rs. 20, so 270 + 20 = 290. Where did the missing Rs. 10 go?","Nothing is missing. The Rs. 270 paid already includes the bellboy’s Rs. 20 (250 for the room + 20 for the bellboy). Adding the 20 again is the mistake.",[/(no|not|nothing|never) (is |was |any )?(rs )?(10 )?missing|nowhere|flaw|fallac|miscalc|wrong (math|calc|add)|trick|illusion|misleading|mistake|double count|270 (is|includes)|250 (plus|and) 20/]],
+["A prisoner faces two doors: one leads to freedom, the other to execution. A guard stands at each door. One guard always tells the truth and the other always lies. You may ask ONE question to ONE guard. What do you ask?","Ask either guard: “If I asked the other guard which door leads to freedom, what would he say?” Then take the opposite door to the one he names.",[/other guard|another guard|the other/,/opposite|reverse|other door|different door|inverse|contrary/]],
+["A man dies in an X-ray room. Police find a coded note: 4, 1, 14, 9, 5, 12. They arrest three suspects: John, Alex and Daniel. Who is the killer?","Daniel. The numbers are alphabet positions: 4=D, 1=A, 14=N, 9=I, 5=E, 12=L.",[/daniel/]],
+["Using only a 3-minute and a 5-minute hourglass, how can you measure exactly 7 minutes?","Start both. At 3 minutes flip the 3-minute glass. At 5 minutes flip the 5-minute glass. At 6 minutes the 3-minute glass ends; flip the 5-minute glass again. It has 1 minute of sand on top, so it ends at 7 minutes.",[/flip|turn|reverse|restart/,/\b(1|one) ?min|remain|left|sand|6/]],
+["In a village there is one barber. He shaves every man who does not shave himself, and only those men. Does the barber shave himself?","Neither answer works. If he shaves himself he breaks his own rule, and if he does not he must shave himself. This is Russell’s paradox, so such a barber cannot exist.",[/paradox|impossible|contradict|cannot exist|cant exist|no such|russell|undefined|logically/]],
+["A rope ladder hangs over the side of a ship, with rungs 1 foot apart. The water is at the 3rd rung. If the tide rises 1 foot per hour, which rung is the water at after 3 hours?","Still the 3rd rung. The ship floats and rises with the tide.",[/\b(3rd|third|3|three)\b|same rung|float/]],
+["A king tells a prisoner: make a statement. If it is true, you will be hanged. If it is false, you will be burned alive. What can the prisoner say to escape?","“I will be burned alive.” If that is true he must be hanged, which makes it false. If it is false he must be burned, which makes it true. The king cannot carry out either.",[/burn/,/./],/(not|wont|never|dont) (be )?(going to be )?burn/],
+["There are 100 boxes with 10 coins each. In 99 boxes every coin weighs 10 g. In one box every coin weighs 11 g. Using a digital scale only once, how do you find the box with the heavier coins?","Take 1 coin from box 1, 2 from box 2, and so on up to 100 from box 100. Weigh them all together. The excess over 50,500 g equals the box number.",[/different (number|amount|count)|increas|n coins|\b1\b.*\b2\b.*\b3\b|1 coin from (the )?(first|box 1)|number of coins|sequen|progress/,/extra|excess|difference|over|more|gram|weight|heav/]],
+["Four people are in a room and each shakes hands with every other person exactly once. How many handshakes take place?","6 handshakes: 4 × 3 ÷ 2.",[/\b(6|six)\b/]],
+["What is something the maker sells, the buyer never uses, and the user never sees?","A coffin.",[/coffin|casket/]],
+["100 prisoners stand in a line facing forward, each wearing a red or blue hat. Each sees every hat in front of them but not their own or those behind. Starting from the back, each states the colour of their own hat; a wrong answer means execution. What strategy guarantees that at least 99 survive?","The last prisoner says “red” if he sees an even number of red hats, otherwise “blue”. That is a 50% gamble for him only. Everyone after him tracks the parity from the answers and the hats ahead, and works out their own colour with certainty.",[/parity|even|odd/,/back|last|first|behind|rear/]],
+["There are 1,000 bottles of wine and exactly one is poisoned. You have 10 rats and the poison takes 24 hours to work. How do you find the poisoned bottle within 24 hours?","Number the bottles in binary (10 bits cover 1,024). Give each rat one bit position and feed it every bottle with a 1 in that position. The rats that die form the binary number of the poisoned bottle.",[/binary|bits?\b|base 2|base two|2 10/]],
+["Three gods A, B and C: one always tells the truth, one always lies, one answers randomly. You may ask three yes/no questions, but they answer only “Da” or “Ja” and you do not know which means yes. How do you identify all three gods?","Use embedded questions such as “If I asked you whether X, would you say Da?”, which gives a reliable answer from both the truth-teller and the liar whatever “Da” means. First find a god who is certainly not random, then use that god to identify the other two.",[/if i (were to )?ask|would you say|embedded|counterfactual|hypothetical|nested/,/random/]],
+["On an island 100 people have blue eyes. Nobody knows their own eye colour and they cannot discuss it. A traveller announces: “At least one of you has blue eyes.” Anyone who realises their eyes are blue must leave at midnight. What happens?","All 100 blue-eyed people leave together on the 100th night. With 1 person they would leave on night 1, with 2 on night 2, and so on by induction.",[/\b(100|100th|hundred|hundredth)\b/,/night|day|midnight/]],
+["You have a 100-storey building and 2 identical glass balls. You want to find the lowest floor from which a dropped ball breaks. What is the minimum number of drops that guarantees finding it in the worst case?","14 drops. Since 14 + 13 + … + 1 ≥ 100, drop the first ball from floors 14, 27, 39, 50 and so on, then use the second ball one floor at a time.",[/\b(14|fourteen)\b/]],
+["Four people must cross a bridge at night with one flashlight. At most 2 cross at once, at the slower person’s pace. They take 1, 2, 5 and 10 minutes. What is the minimum total time?","17 minutes. (1,2 cross: 2) (1 back: 1) (5,10 cross: 10) (2 back: 2) (1,2 cross: 2).",[/\b(17|seventeen)\b/]],
+["Two diagonally opposite corner squares are removed from an 8×8 chessboard, leaving 62 squares. Can you cover it exactly with 31 dominoes, each covering 2×1 squares?","No. Opposite corners have the same colour, so 32 squares of one colour and 30 of the other remain, while every domino covers one of each.",[/\bno\b|not possible|impossible|cannot|cant|never/,/colou?r|black|white|parity|diagonal|opposite corner|same shade/]],
+["100 lockers are closed and 100 students pass by. Student 1 opens every locker, student 2 toggles every 2nd locker, student 3 every 3rd, and so on up to student 100. Which lockers are open at the end?","The perfect squares: 1, 4, 9, 16, 25, 36, 49, 64, 81 and 100. Only squares have an odd number of factors, so they are toggled an odd number of times.",[/square/]],
+["You pick Door 1 of 3 doors (one car, two goats). The host, who knows what is behind them, opens Door 3 to show a goat and offers you a switch to Door 2. Should you switch?","Yes. Switching wins 2/3 of the time, while staying wins only 1/3 (the Monty Hall problem).",[/yes|switch|change/,/2 3|two thirds?|66|67|double|twice|higher|better|more|probab|chance|likely/],/(dont|do not|never|should not|shouldnt) (to )?(switch|change)/],
+["Five pirates A, B, C, D, E (A the most senior) split 100 gold coins. The senior pirate proposes a split; if at least half vote yes it passes, otherwise he is thrown overboard and the next proposes. All are perfectly logical, greedy and bloodthirsty. What is the most coins A can secure?","98 coins: A 98, B 0, C 1, D 0, E 1. C and E would get nothing if A were thrown overboard, so they vote yes for 1 coin each.",[/\b(98|ninety eight)\b/]]
+];
+const $=s=>document.querySelector(s);
+let prog=[];try{prog=JSON.parse(localStorage.getItem("ll1")||"[]")}catch(e){}
+const save=()=>{try{localStorage.setItem("ll1",JSON.stringify(prog))}catch(e){}};
+const norm=s=>s.toLowerCase().replace(/['’]/g,"").replace(/[^a-z0-9]+/g," ").trim();
+const open=i=>i==0||prog[i-1]>0;
+let cur=0,tries=0;
+function nextIdx(){let i=0;while(i<Q.length&&prog[i]>0)i++;return Math.min(i,Q.length-1)}
+function home(){
+  live=false;clearInterval(tmr);$("#play").hidden=true;$("#home").hidden=false;
+  const d=prog.filter(x=>x>0).length,n=nextIdx();
+  $("#stat").textContent=d+" of "+Q.length+" levels done";$("#pb").style.width=d/Q.length*100+"%";
+  $("#go").textContent=d==0?"Play":d>=Q.length?"Play again":"Continue";
+  $("#tiers").innerHTML=TN.map((t,k)=>`<div class="tier"><h2>${t}</h2><span>Levels ${k*10+1} to ${k*10+10} · ${[3,6,15][k]} minutes each</span></div><div class="grid">`+
+    Array.from({length:10},(_,j)=>{const i=k*10+j;return `<button class="t${prog[i]==2?" s2":prog[i]==1?" s1":i==n&&open(i)?" now":""}" data-i="${i}" ${open(i)?"":"disabled"} aria-label="Level ${i+1}, ${TN[k]}${open(i)?"":", locked"}"><b>${i+1}</b><small>${TS[k]}</small></button>`}).join("")+"</div>").join("");
+  window.scrollTo(0,0);
+}
+function go(i){
+  cur=i;tries=0;const k=Math.floor(i/10);
+  $("#home").hidden=true;$("#play").hidden=false;
+  $("#lt").textContent="Level "+(i+1);$("#ls").textContent=TN[k]+" · "+(i+1)+" of "+Q.length;
+  $("#pp").style.width=(i+1)/Q.length*100+"%";
+  $("#chip").textContent=TN[k]+" · "+LIM[k]/60+" minutes";$("#q").textContent=Q[i][0];
+  $("#ans").value="";$("#ans").disabled=false;$("#chk").disabled=false;
+  $("#fb").textContent="";$("#res").hidden=true;$("#fail").hidden=true;
+  startTimer();window.scrollTo(0,0);$("#ans").focus();
+}
+function finish(solved){
+  $("#ans").disabled=true;$("#chk").disabled=true;live=false;clearInterval(tmr);$("#fb").textContent="";
+  $("#rh").textContent=solved?"Correct!":"The answer";$("#ra").textContent=Q[cur][1];
+  const last=cur==Q.length-1;$("#nx").textContent=last?"Back to levels":"Next level";
+  $("#res").hidden=false;$("#res").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function check(){
+  const v=norm($("#ans").value);
+  if(!v){$("#fb").textContent="Type your answer first.";return}
+  const[,,g,neg]=Q[cur];
+  if(g.every(r=>r.test(v))&&!(neg&&neg.test(v))){prog[cur]=2;save();finish(true)}
+  else{$("#fb").textContent="Not quite. Think about the idea behind it and try again."}
+}
+$("#go").onclick=()=>go(nextIdx());
+$("#tiers").onclick=e=>{const b=e.target.closest(".t");if(b&&!b.disabled)go(+b.dataset.i)};
+$("#back").onclick=home;
+$("#bk").onclick=home;
+$("#chk").onclick=check;
+$("#ans").onkeydown=e=>{if(e.key=="Enter"&&!e.shiftKey){e.preventDefault();check()}};
+const LIM=[180,360,900];let tmr,end=0;
+const fmt=s=>Math.floor(s/60)+":"+String(s%60).padStart(2,"0");
+function startTimer(){live=true;strikes=0;away=false;$("#warn").hidden=true;clearInterval(tmr);end=Date.now()+LIM[Math.floor(cur/10)]*1000;tick();tmr=setInterval(tick,250)}
+function tick(){const s=Math.max(0,Math.ceil((end-Date.now())/1000));$("#tm").textContent=fmt(s);$("#tm").classList.toggle("low",s<=60);if(s<=0)timeUp()}
+let live=false,strikes=0,away=false;
+function failLevel(t,m){live=false;clearInterval(tmr);$("#ans").disabled=true;$("#chk").disabled=true;$("#fb").textContent="";$("#fail h3").textContent=t;$("#fail p").textContent=m;$("#fail").hidden=false;$("#fail").scrollIntoView({behavior:"smooth",block:"nearest"})}
+function timeUp(){failLevel("Time’s up","You ran out of time, so this level is failed. Try it again to move on to the next one.")}
+$("#again2").onclick=()=>go(cur);
+$("#bk2").onclick=home;
+function leave(){if(!live||away)return;away=true;strikes++;if(strikes>=2)failLevel("Level failed","You left the game twice, so this level is failed. Stay on this page while you play. Try it again to move on.");else $("#warn").hidden=false}
+const back=()=>{away=false};
+document.addEventListener("visibilitychange",()=>document.hidden?leave():back());
+window.addEventListener("blur",()=>setTimeout(()=>{if(!document.hasFocus())leave()},300));
+window.addEventListener("focus",back);
+const note=m=>{if(live)$("#fb").textContent=m};
+["paste","drop"].forEach(t=>$("#ans").addEventListener(t,e=>{e.preventDefault();note("Pasting is turned off. Type your answer yourself.")}));
+$("#ans").addEventListener("beforeinput",e=>{if(e.inputType=="insertFromPaste"||e.inputType=="insertFromDrop"){e.preventDefault();note("Pasting is turned off. Type your answer yourself.")}});
+["copy","cut","contextmenu","dragstart","selectstart"].forEach(t=>$("#q").addEventListener(t,e=>e.preventDefault()));
+$("#nx").onclick=()=>cur==Q.length-1?home():go(cur+1);
+home();
+</script>
+</body>
+</html>
